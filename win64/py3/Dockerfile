@@ -23,6 +23,7 @@ RUN set -x \
     
 # install git
 RUN apt-get install -y git
+RUN apt-get install -y python3.7
 
 # wine settings
 ENV WINEARCH win64
