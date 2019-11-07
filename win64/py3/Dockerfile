@@ -50,7 +50,7 @@ RUN set -x \
     && echo 'wine '\''C:\Python37\Scripts\pyinstaller.exe'\'' "$@"' > /usr/bin/pyinstaller \
     && echo 'wine '\''C:\Python37\Scripts\pyupdater.exe'\'' "$@"' > /usr/bin/pyupdater \
     && echo 'assoc .py=PythonScript' | wine cmd \
-    && echo 'ftype PythonScript=c:\Python36\python.exe "%1" %*' | wine cmd \
+    && echo 'ftype PythonScript=c:\Python37\python.exe "%1" %*' | wine cmd \
     && while pgrep wineserver >/dev/null; do echo "Waiting for wineserver"; sleep 1; done \
     && chmod +x /usr/bin/python /usr/bin/easy_install /usr/bin/pip /usr/bin/pyinstaller /usr/bin/pyupdater \
     && (pip install -U pip || true) \
