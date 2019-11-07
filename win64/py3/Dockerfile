@@ -20,6 +20,9 @@ RUN set -x \
     && wget -nv https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
     && chmod +x winetricks \
     && mv winetricks /usr/local/bin
+    
+# install git
+RUN apt-get install -y git
 
 # wine settings
 ENV WINEARCH win64
@@ -37,15 +40,15 @@ RUN set -x \
     && winetricks win7 \
     && for msifile in `echo core dev exe lib path pip tcltk tools`; do \
         wget -nv "https://www.python.org/ftp/python/$PYTHON_VERSION/amd64/${msifile}.msi"; \
-        wine msiexec /i "${msifile}.msi" /qb TARGETDIR=C:/Python36; \
+        wine msiexec /i "${msifile}.msi" /qb TARGETDIR=C:/Python37; \
         rm ${msifile}.msi; \
     done \
-    && cd /wine/drive_c/Python36 \
-    && echo 'wine '\''C:\Python36\python.exe'\'' "$@"' > /usr/bin/python \
-    && echo 'wine '\''C:\Python36\Scripts\easy_install.exe'\'' "$@"' > /usr/bin/easy_install \
-    && echo 'wine '\''C:\Python36\Scripts\pip.exe'\'' "$@"' > /usr/bin/pip \
-    && echo 'wine '\''C:\Python36\Scripts\pyinstaller.exe'\'' "$@"' > /usr/bin/pyinstaller \
-    && echo 'wine '\''C:\Python36\Scripts\pyupdater.exe'\'' "$@"' > /usr/bin/pyupdater \
+    && cd /wine/drive_c/Python37 \
+    && echo 'wine '\''C:\Python37\python.exe'\'' "$@"' > /usr/bin/python \
+    && echo 'wine '\''C:\Python37\Scripts\easy_install.exe'\'' "$@"' > /usr/bin/easy_install \
+    && echo 'wine '\''C:\Python37\Scripts\pip.exe'\'' "$@"' > /usr/bin/pip \
+    && echo 'wine '\''C:\Python37\Scripts\pyinstaller.exe'\'' "$@"' > /usr/bin/pyinstaller \
+    && echo 'wine '\''C:\Python37\Scripts\pyupdater.exe'\'' "$@"' > /usr/bin/pyupdater \
     && echo 'assoc .py=PythonScript' | wine cmd \
     && echo 'ftype PythonScript=c:\Python36\python.exe "%1" %*' | wine cmd \
     && while pgrep wineserver >/dev/null; do echo "Waiting for wineserver"; sleep 1; done \
@@ -74,6 +77,8 @@ RUN mkdir /src/ && ln -s /src /wine/drive_c/src
 VOLUME /src/
 WORKDIR /wine/drive_c/src/
 RUN mkdir -p /wine/drive_c/tmp
+
+RUN pip install -r 
 
 RUN pip install pyinstaller==$PYINSTALLER_VERSION
 
